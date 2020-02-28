@@ -44,9 +44,13 @@ export default {
 	methods: {
 		getMovies: function() {
 			console.log('Getting movies')
-			axios.get('localhost:3000/get-movies').then(response => {
-				console.log(response)
-			})
+			axios
+				.get(
+					'https://what-should-i-watch-today-api.herokuapp.com/get-movies'
+				)
+				.then(response => {
+					console.log(response)
+				})
 		}
 	}
 }
