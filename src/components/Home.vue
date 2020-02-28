@@ -3,12 +3,14 @@
 		<main class="container main">
 			<div class="row">
 				<section class="column">
-					<img :src="movie.poster" :alt="movie.name" />
+					<img
+						:src="posterBaseUrl + movies[6].poster_path"
+						:alt="movie.name"
+					/>
 				</section>
 				<section class="column">
-					<h1>{{ movie.name }}</h1>
-					<h2>hello</h2>
-					<p>{{ movie.description }}</p>
+					<h1>{{ movies[6].title }}</h1>
+					<p>{{ movies[6].overview }}</p>
 					<button @click="getMovies" class="button-large">
 						Next
 					</button>
@@ -30,6 +32,8 @@ export default {
 	},
 	data: function() {
 		return {
+			posterBaseUrl: 'http://image.tmdb.org/t/p/w500',
+			movies: [],
 			movie: {
 				name: 'Secondhand Lions',
 				poster:
@@ -44,14 +48,18 @@ export default {
 	methods: {
 		getMovies: function() {
 			console.log('Getting movies')
-			axios
-				.get(
-					'https://what-should-i-watch-today-api.herokuapp.com/get-movies'
-				)
-				.then(response => {
-					console.log(response)
-				})
 		}
+	},
+	mounted: function() {
+		axios
+			.get(
+				'https://what-should-i-watch-today-api.herokuapp.com/get-movies'
+			)
+			.then(response => {
+				let res = JSON.parse(response.data.body)
+				this.movies = res.results
+				console.log(res)
+			})
 	}
 }
 </script>
