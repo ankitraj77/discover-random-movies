@@ -80,9 +80,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 export default {
-	name: "Home",
+	name: 'Home',
 	props: {
 		msg: String
 	},
@@ -92,75 +92,75 @@ export default {
 			selection: 1,
 			isData: false,
 			genreList: [],
-			posterBaseUrl: "http://image.tmdb.org/t/p/w500",
+			posterBaseUrl: 'http://image.tmdb.org/t/p/w500',
 			movies: [],
 			index: 0,
 			attribution:
-				"https://www.themoviedb.org/assets/2/v4/logos/powered-by-rectangle-green-dcada16968ed648d5eb3b36bbcfdd8cdf804f723dcca775c8f2bf4cea025aad6.svg"
-		};
+				'https://www.themoviedb.org/assets/2/v4/logos/powered-by-rectangle-green-dcada16968ed648d5eb3b36bbcfdd8cdf804f723dcca775c8f2bf4cea025aad6.svg'
+		}
 	},
 	methods: {
 		getMovies: function() {
 			axios
 				.get(
-					"https://what-should-i-watch-today-api.herokuapp.com/get-movies"
+					'https://what-should-i-watch-today-api.herokuapp.com/get-movies'
 				)
 				.then(response => {
-					let res = JSON.parse(response.data.body);
-					this.movies = res.results;
-					this.index = 0;
-					console.log(res);
-				});
+					let res = JSON.parse(response.data.body)
+					this.movies = res.results
+					this.index = 0
+					console.log(res)
+				})
 		},
 		nextMovie: function() {
 			if (this.index < this.movies.length - 1) {
-				this.index++;
+				this.index++
 			} else {
-				this.getMovies();
+				this.getMovies()
 			}
 		}
 	},
 	computed: {
 		movie: function() {
-			return this.movies[this.index];
+			return this.movies[this.index]
 		},
 		genres: function() {
-			let genres = [];
+			let genres = []
 			for (let i = 0; i < this.movie.genre_ids.length; i++) {
 				for (let genre of this.genreList) {
 					if (genre.id == this.movie.genre_ids[i]) {
-						genres.push(genre.name);
+						genres.push(genre.name)
 					}
 				}
 			}
 			// console.log(genres)
-			return genres;
+			return genres
 		}
 	},
 	mounted: function() {
 		// GET MOVIES
 		axios
 			.get(
-				"https://what-should-i-watch-today-api.herokuapp.com/get-movies"
+				'https://what-should-i-watch-today-api.herokuapp.com/get-movies'
 			)
 			.then(response => {
-				let res = JSON.parse(response.data.body);
-				this.movies = res.results;
-				this.isData = true;
+				let res = JSON.parse(response.data.body)
+				this.movies = res.results
+				this.isData = true
 				// console.log(res)
-			});
+			})
 		// GET GENRES
 		axios
-			.get("https://what-should-i-watch-today-api.herokuapp.com/genres")
+			.get('https://what-should-i-watch-today-api.herokuapp.com/genres')
 			.then(response => {
-				let res = JSON.parse(response.data.body);
-				this.genreList = res.genres;
-				this.isData = true;
+				let res = JSON.parse(response.data.body)
+				this.genreList = res.genres
+				this.isData = true
 				// console.log('Genre List ')
 				// console.log(res.genres)
-			});
+			})
 	}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
